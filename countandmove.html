@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        #quadratodrag-outside{
+            width: 6em;
+            height: 6em;
+            background-color: white;
+            border: 1px solid black;
+            float: right;
+        }
+        #quadratodrag
+        {
+            width: 5em;
+            height: 5em;
+            background-color: green;
+            margin-top: 1vh;
+            margin-left: 1vh;
+            border: 1px solid black;
+            position: relative;
+        }
+        #quadratodrop
+        {
+            width: 6em;
+            height: 6em;
+            background-color: white;
+            border: 1px dashed black;
+            position: relative;
+        }
+        #contatore
+        {
+            font-weight: bold;
+        }
+    </style>
+    
+    <title>Count and Move</title>
+  </head>
+  <body>
+  
+    <div class="container text-center">
+        <h1>Count and Move</h1>
+        <h3>Instructions</h3>
+        <p>Click the green square multiple times to change the color.</p>
+        <p>Move the square over the dotted area to color it black.</p>
+        <div id="contatore">Counter: 1</div>
+        </p>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col">
+                <div id="quadratodrag-outside"><div id="quadratodrag" draggable="true" ondragstart="drag(event)"></div></div>
+                
+            </div>
+            <div class="col"></div>
+            <div class="col-4"></div>                        
+        </div>
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col"></div>
+            <div class="col"><div id="quadratodrop" ondrop="drop(event)" ondragover="allowDrop(event)"></div></div>
+            <div class="col-4"></div>                        
+        </div>
+    </div>  
+
+     
+   </div>
+   <script>
+    const objContatore = document.querySelector("#contatore"); 
+    const objQuadrato = document.querySelector("#quadratodrag");
+
+    objQuadrato.addEventListener("click",conta, true);
+
+    var contatore = 1;
+
+    function conta()
+    {
+        if (contatore != 0){
+            if (contatore == 20){
+                contatore = 1;
+            }
+            else{
+                contatore = contatore + 1;
+            }        
+            objContatore.innerHTML = "Counter: " + contatore;
+
+            if (contatore == 1)
+            {
+                objQuadrato.style.backgroundColor = "green"; 
+            }
+            if (contatore > 5)
+            {
+                objQuadrato.style.backgroundColor = "yellow"; 
+            }
+
+            if (contatore > 10)
+            {
+                objQuadrato.style.backgroundColor = "orange"; 
+            }
+
+            if (contatore > 15)
+            {
+                objQuadrato.style.backgroundColor = "red"; 
+            }
+        }
+    }    
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+        objQuadrato.style.backgroundColor = "black"; 
+        contatore = 0;
+        objContatore.innerHTML = "Counter: " + contatore;
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>    
+  </body>
+</html>
